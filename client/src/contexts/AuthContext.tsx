@@ -61,12 +61,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const token = Cookies.get('token')
       if (token) {
         try {
-          const response = await apiClient.get('/auth/me')
+          // Add timeout to prevent hanging
+          const response = await Promise.race([
+            apiClient.get('/auth/me'),
+            new Promise((_, reject) => 
+              setTimeout(() => reject(new Error('Request timeout')), 3000)
+            )
+          ]) as any
           setUser(response.data.data.user)
         } catch (error) {
-          // Token is invalid, remove it
+          // Token is invalid or server unavailable, remove it
           Cookies.remove('token')
-          console.error('Failed to authenticate user:', error)
+          console.warn('Failed to authenticate user (server may be offline):', error)
         }
       }
       setLoading(false)

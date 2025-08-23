@@ -8,11 +8,11 @@ import {
   TrophyIcon, 
   ChartBarIcon, 
   CalendarIcon,
-  TargetIcon,
   FireIcon,
   ArrowTrendingUpIcon,
   ClockIcon
 } from '@heroicons/react/24/outline'
+import { FlagIcon as TargetIcon } from '@heroicons/react/24/outline'
 import { useAuth } from '../../hooks/useAuth'
 import { apiClient } from '../../services/api'
 import DashboardCard from '../../components/Dashboard/DashboardCard'

@@ -66,7 +66,8 @@ const annualGoalsSchema = new mongoose.Schema({
     consistencyTarget: { // Training days per week
       target: Number,
       current: Number,
-      unit: 'days per week'
+      unit: { type: String, 
+      default: 'days per week' }
     },
     volumeGoals: {
       weeklyVolume: Number, // Target weekly volume

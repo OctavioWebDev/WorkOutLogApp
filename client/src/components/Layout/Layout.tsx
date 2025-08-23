@@ -9,7 +9,7 @@ import {
   TrophyIcon,
   ChartBarIcon,
   CalendarIcon,
-  TargetIcon,
+  FlagIcon as TargetIcon,
   UserIcon,
   CreditCardIcon,
   Cog6ToothIcon,
