@@ -73,6 +73,25 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white">
+      {/* DEV NAVIGATION - Remove this in production */}
+      <div className="bg-yellow-100 border-b-2 border-yellow-300 p-2">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-xs text-yellow-800 mb-2 font-semibold">🚧 DEV MODE - Quick Navigation:</p>
+          <div className="flex flex-wrap gap-2">
+            <Link to="/dashboard" className="bg-blue-500 text-white px-2 py-1 rounded text-xs hover:bg-blue-600">Dashboard</Link>
+            <Link to="/workouts" className="bg-green-500 text-white px-2 py-1 rounded text-xs hover:bg-green-600">Workouts</Link>
+            <Link to="/prs" className="bg-purple-500 text-white px-2 py-1 rounded text-xs hover:bg-purple-600">PRs</Link>
+            <Link to="/competitions" className="bg-red-500 text-white px-2 py-1 rounded text-xs hover:bg-red-600">Competitions</Link>
+            <Link to="/analytics" className="bg-indigo-500 text-white px-2 py-1 rounded text-xs hover:bg-indigo-600">Analytics</Link>
+            <Link to="/goals" className="bg-pink-500 text-white px-2 py-1 rounded text-xs hover:bg-pink-600">Goals</Link>
+            <Link to="/programs" className="bg-teal-500 text-white px-2 py-1 rounded text-xs hover:bg-teal-600">Programs</Link>
+            <Link to="/profile" className="bg-gray-500 text-white px-2 py-1 rounded text-xs hover:bg-gray-600">Profile</Link>
+            <Link to="/login" className="bg-orange-500 text-white px-2 py-1 rounded text-xs hover:bg-orange-600">Login</Link>
+            <Link to="/register" className="bg-cyan-500 text-white px-2 py-1 rounded text-xs hover:bg-cyan-600">Register</Link>
+          </div>
+        </div>
+      </div>
+
       {/* Navigation */}
       <nav className="relative z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

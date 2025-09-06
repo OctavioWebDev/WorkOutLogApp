@@ -14,29 +14,108 @@ import ProgramsPage from './pages/Programs/ProgramsPage'
 import ProfilePage from './pages/Profile/ProfilePage'
 import LoginPage from './pages/Auth/LoginPage'
 import RegisterPage from './pages/Auth/RegisterPage'
+import { AuthProvider } from './contexts/AuthContext'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 1,
+      refetchOnWindowFocus: false,
+    },
+  },
+})
 
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen">
-        <Routes>
-          {/* Landing page has its own navigation */}
-          <Route path="/" element={<LandingPage />} />
-          
-          {/* Other pages use the main navigation */}
-          <Route path="/dashboard" element={<><Navigation /><DashboardPage /></>} />
-          <Route path="/workouts" element={<><Navigation /><WorkoutsPage /></>} />
-          <Route path="/prs" element={<><Navigation /><PersonalRecordsPage /></>} />
-          <Route path="/competitions" element={<><Navigation /><CompetitionsPage /></>} />
-          <Route path="/analytics" element={<><Navigation /><AnalyticsPage /></>} />
-          <Route path="/goals" element={<><Navigation /><GoalsPage /></>} />
-          <Route path="/programs" element={<><Navigation /><ProgramsPage /></>} />
-          <Route path="/profile" element={<><Navigation /><ProfilePage /></>} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-        </Routes>
-      </div>
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <Router>
+          <Routes>
+            {/* Landing page has its own navigation built-in */}
+            <Route path="/" element={<LandingPage />} />
+            
+            {/* Auth pages typically don't need navigation */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            
+            {/* App pages with navigation */}
+            <Route 
+              path="/dashboard" 
+              element={
+                <div className="min-h-screen bg-gray-100">
+                  <Navigation />
+                  <DashboardPage />
+                </div>
+              } 
+            />
+            <Route 
+              path="/workouts" 
+              element={
+                <div className="min-h-screen bg-gray-100">
+                  <Navigation />
+                  <WorkoutsPage />
+                </div>
+              } 
+            />
+            <Route 
+              path="/prs" 
+              element={
+                <div className="min-h-screen bg-gray-100">
+                  <Navigation />
+                  <PersonalRecordsPage />
+                </div>
+              } 
+            />
+            <Route 
+              path="/competitions" 
+              element={
+                <div className="min-h-screen bg-gray-100">
+                  <Navigation />
+                  <CompetitionsPage />
+                </div>
+              } 
+            />
+            <Route 
+              path="/analytics" 
+              element={
+                <div className="min-h-screen bg-gray-100">
+                  <Navigation />
+                  <AnalyticsPage />
+                </div>
+              } 
+            />
+            <Route 
+              path="/goals" 
+              element={
+                <div className="min-h-screen bg-gray-100">
+                  <Navigation />
+                  <GoalsPage />
+                </div>
+              } 
+            />
+            <Route 
+              path="/programs" 
+              element={
+                <div className="min-h-screen bg-gray-100">
+                  <Navigation />
+                  <ProgramsPage />
+                </div>
+              } 
+            />
+            <Route 
+              path="/profile" 
+              element={
+                <div className="min-h-screen bg-gray-100">
+                  <Navigation />
+                  <ProfilePage />
+                </div>
+              } 
+            />
+          </Routes>
+        </Router>
+      </AuthProvider>
+    </QueryClientProvider>
   )
 }
 
