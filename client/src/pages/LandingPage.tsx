@@ -74,7 +74,7 @@ const LandingPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* DEV NAVIGATION - Remove this in production */}
-      <div className="bg-yellow-100 border-b-2 border-yellow-300 p-2">
+      {/* <div className="bg-yellow-100 border-b-2 border-yellow-300 p-2">
         <div className="max-w-7xl mx-auto">
           <p className="text-xs text-yellow-800 mb-2 font-semibold">🚧 DEV MODE - Quick Navigation:</p>
           <div className="flex flex-wrap gap-2">
@@ -90,7 +90,7 @@ const LandingPage: React.FC = () => {
             <Link to="/register" className="bg-cyan-500 text-white px-2 py-1 rounded text-xs hover:bg-cyan-600">Register</Link>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Navigation */}
       <nav className="relative z-50 bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0">
