@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import apiClient from '../../services/api' // Adjust path based on your api.ts location
+import { useAuth } from '../../hooks/useAuth'
 
 const RegisterPage: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: '' // Added missing confirmPassword field
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const navigate = useNavigate()
+  const { register } = useAuth() // Use AuthContext instead of direct API calls
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -27,8 +29,15 @@ const RegisterPage: React.FC = () => {
     try {
       console.log('Attempting to register with:', formData)
       
-      const response = await apiClient.post('/auth/register', formData)
-      console.log('Registration successful:', response.data)
+      // Use AuthContext register method instead of direct API call
+      await register({
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword
+      })
+      
+      console.log('Registration successful')
       
       // Registration successful - redirect to dashboard
       navigate('/dashboard')
@@ -36,8 +45,14 @@ const RegisterPage: React.FC = () => {
       console.error('Registration error:', err)
       
       // Handle different types of errors
-      if (err.response?.data?.message) {
+      if (err.response?.data?.errors && Array.isArray(err.response.data.errors)) {
+        // Handle validation errors array
+        const errorMessages = err.response.data.errors.map((e: any) => e.msg || e.message || e).join(', ')
+        setError(errorMessages)
+      } else if (err.response?.data?.message) {
         setError(err.response.data.message)
+      } else if (err.response?.data?.error) {
+        setError(err.response.data.error)
       } else if (err.message) {
         setError(err.message)
       } else {
@@ -103,6 +118,18 @@ const RegisterPage: React.FC = () => {
               onChange={handleChange}
               className="relative block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
               placeholder="Password"
+            />
+          </div>
+          
+          <div>
+            <input
+              name="confirmPassword"
+              type="password"
+              required
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              className="relative block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
+              placeholder="Confirm Password"
             />
           </div>
           

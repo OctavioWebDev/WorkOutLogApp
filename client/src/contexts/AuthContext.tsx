@@ -84,7 +84,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (email: string, password: string) => {
     try {
       const response = await apiClient.post('/auth/login', { email, password })
+      console.log('Full server response:', response.data) // Add this line
+      
       const { token, data } = response.data
+      console.log('Extracted token:', token) // Add this line
+      console.log('Extracted data:', data) // Add this line
       
       // Store token in cookies
       Cookies.set('token', token, { expires: 7 }) // 7 days
@@ -92,9 +96,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setUser(data.user)
       toast.success('Welcome back!')
     } catch (error: any) {
-      const message = error.response?.data?.message || 'Login failed'
-      toast.error(message)
-      throw error
+      // error handling...
     }
   }
 

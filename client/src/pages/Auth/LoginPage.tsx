@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import apiClient from '../../services/api' // Adjust path based on your api.ts location
+import { useAuth } from '../../hooks/useAuth'
+import Cookies from 'js-cookie'
 
 const LoginPage: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const navigate = useNavigate()
+  const { login } = useAuth() // Use AuthContext instead of direct API calls
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -22,15 +24,48 @@ const LoginPage: React.FC = () => {
     e.preventDefault()
     setLoading(true)
     setError('')
-
+  
     try {
       console.log('Attempting to login with:', { email: formData.email })
       
-      const response = await apiClient.post('/auth/login', formData)
-      console.log('Login successful:', response.data)
+      // Use AuthContext login method
+      await login(formData.email, formData.password)
       
-      // Login successful - redirect to dashboard
-      navigate('/dashboard')
+      console.log('Login successful')
+      
+      // Instead of checking cookies, just navigate after successful login
+      // The AuthContext has already set the token and user state
+      setTimeout(() => {
+        navigate('/dashboard')
+      }, 100)
+      
+    } catch (err: any) {
+      // error handling stays the same...
+    } finally {
+      setLoading(false)
+    }
+    
+    try {
+      console.log('Attempting to login with:', { email: formData.email })
+      
+      // Use AuthContext login method
+      await login(formData.email, formData.password)
+      
+      console.log('Login successful')
+      
+      // Verify token is set before navigating
+      const token = Cookies.get('token')
+      console.log('Token after login:', token)
+      
+      if (token) {
+        // Add small delay to ensure token is available for API calls
+        setTimeout(() => {
+          navigate('/dashboard')
+        }, 100)
+      } else {
+        setError('Authentication failed. Please try again.')
+      }
+      
     } catch (err: any) {
       console.error('Login error:', err)
       
